@@ -1,0 +1,9 @@
+.turbo/
+node_modules/
+npm-debug.log*
+package-lock.json
+dist/
+*.prisma
+schema.prisma
+.env
+.env.*
