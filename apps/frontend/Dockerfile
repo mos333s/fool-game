@@ -20,6 +20,8 @@ RUN npx turbo run build --filter=frontend...
 
 FROM nginx:1.31-alpine AS runner
 
+COPY --from=pruner /app/out/full/apps/frontend/nginx.conf /etc/nginx/conf.d/default.conf
+
 COPY --from=installer /app/apps/frontend/dist /usr/share/nginx/html
 
 EXPOSE 80 
