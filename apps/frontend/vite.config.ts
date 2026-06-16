@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,6 +11,10 @@ export default defineConfig({
         additionalData: `@use "@/shared/ui/styles/index.scss" as *;`,
       },
     },
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./src/shared/config/tests/setup.ts'],
   },
   build: {
     outDir: 'dist',
