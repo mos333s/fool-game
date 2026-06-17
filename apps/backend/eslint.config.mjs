@@ -1,37 +1,85 @@
 // @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import importX from 'eslint-plugin-import-x';
+import prettier from 'eslint-config-prettier';
+import nestjs from '@darraghor/eslint-plugin-nestjs-typed';
 
 export default tseslint.config(
   {
-    files: ['**/*.js', '**/*.mjs'],
-    ...tseslint.configs.disableTypeChecked,
+    ignores: ['dist', 'eslint.config.mjs'],
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
+  js.configs.recommended,
+  ...tseslint.configs.strictTypeChecked,
+  importX.flatConfigs.recommended,
+  prettier,
   {
+    files: ['**/*.{ts,js}'],
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+      'import-x': importX,
+      nestjs: nestjs,
+    },
     languageOptions: {
       globals: {
         ...globals.node,
         ...globals.jest,
       },
+      parser: tseslint.parser,
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
-  },
-  {
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
+      eqeqeq: ['error', 'always'],
+      'arrow-body-style': ['error', 'as-needed'],
+      'no-var': 'error',
+      'prefer-const': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/no-floating-promises': 'error',
-      '@typescript-eslint/no-unsafe-argument': 'error',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off'
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/no-misused-promises': 'error',
+      'nestjs/use-validation-pipe': 'error',
+      'nestjs/no-missing-injectable': 'error',
+      'nestjs/provided-in-module': 'error',
+      'nestjs/no-invalid-decorator-order': 'error',
+      'nestjs/require-decorator-description': 'warn',
+      '@typescript-eslint/naming-convention': [
+        'error',
+        { selector: 'class', format: ['PascalCase'] },
+        { selector: 'typeLike', format: ['PascalCase'] },
+      ],
+      'import-x/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'type',
+          ],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+      'import-x/no-duplicates': 'error',
+      'import-x/no-cycle': 'error',
+      'import-x/exports-last': 'warn',
+    },
+    settings: {
+      'import-x/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+        },
+      },
     },
   },
 );
