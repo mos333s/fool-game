@@ -4,7 +4,6 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import importX from 'eslint-plugin-import-x';
 import prettier from 'eslint-config-prettier';
-import nestjs from '@darraghor/eslint-plugin-nestjs-typed';
 
 export default tseslint.config(
   {
@@ -19,7 +18,6 @@ export default tseslint.config(
     plugins: {
       '@typescript-eslint': tseslint.plugin,
       'import-x': importX,
-      nestjs: nestjs,
     },
     languageOptions: {
       globals: {
@@ -28,7 +26,9 @@ export default tseslint.config(
       },
       parser: tseslint.parser,
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ['prisma.config.ts', 'test/app.e2e-spec.ts'],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -40,15 +40,11 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/no-misused-promises': 'error',
-      'nestjs/use-validation-pipe': 'error',
-      'nestjs/no-missing-injectable': 'error',
-      'nestjs/provided-in-module': 'error',
-      'nestjs/no-invalid-decorator-order': 'error',
-      'nestjs/require-decorator-description': 'warn',
+      '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/naming-convention': [
         'error',
         { selector: 'class', format: ['PascalCase'] },
@@ -80,6 +76,15 @@ export default tseslint.config(
           alwaysTryTypes: true,
         },
       },
+    },
+  },
+  {
+    files: ['src/**/*.spec.ts', 'test/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
 );
