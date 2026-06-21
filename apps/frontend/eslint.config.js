@@ -47,6 +47,7 @@ export default defineConfig([
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/no-misused-promises': 'error',
+      'react/react-in-jsx-scope': 'off',
       'react/jsx-no-bind': 'warn',
       'react/no-array-index-key': 'error',
       'react/jsx-boolean-value': 'error',
@@ -108,6 +109,9 @@ export default defineConfig([
       ],
     },
     settings: {
+      react: {
+        version: '19.0',
+      },
       'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
@@ -115,12 +119,12 @@ export default defineConfig([
         },
       },
       'boundaries/elements': [
-        { type: 'app', pattern: 'app/*' },
-        { type: 'pages', pattern: 'pages/*' },
-        { type: 'widgets', pattern: 'widgets/*' },
-        { type: 'features', pattern: 'features/*' },
-        { type: 'entities', pattern: 'entities/*' },
-        { type: 'shared', pattern: 'shared/*' },
+        { type: 'app', mode: 'folder', pattern: 'src/app' },
+        { type: 'pages', mode: 'folder', pattern: 'src/pages/*' },
+        { type: 'widgets', mode: 'folder', pattern: 'src/widgets/*' },
+        { type: 'features', mode: 'folder', pattern: 'src/features/*' },
+        { type: 'entities', mode: 'folder', pattern: 'src/entities/*' },
+        { type: 'shared', mode: 'folder', pattern: 'src/shared/*' },
       ],
     },
   },
