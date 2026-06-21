@@ -30,7 +30,14 @@ jobs:
         run: npx turbo run lint
 
       - name: Start Docker Compose
-        run: docker compose up -d
+        run: |
+          cp .env.example .env
+          docker compose up -d
+
+      - name: Check container status
+        run: |
+          sleep 10
+          docker compose ps
 
       - name: Stop Docker Compose
         if: always()
