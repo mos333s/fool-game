@@ -30,7 +30,19 @@ jobs:
         run: npx turbo run lint
 
       - name: Start Docker Compose
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_USER: user
+          POSTGRES_DB: db
+          POSTGRES_PORT: 5432
+          REDIS_PORT: 6379
+          BACKEND_PORT: 3000
         run: docker compose up -d
+
+      - name: Check container status
+        run: |
+          sleep 10
+          docker compose ps
 
       - name: Stop Docker Compose
         if: always()
